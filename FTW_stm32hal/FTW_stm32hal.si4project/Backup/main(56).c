@@ -35,6 +35,17 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define ACC_UPDATE		0x01
+#define GYRO_UPDATE		0x02
+#define ANGLE_UPDATE	0x04
+#define MAG_UPDATE		0x08
+#define READ_UPDATE		0x80
+static volatile char s_cDataUpdate = 0, s_cCmd = 0xff;
+const uint32_t c_uiBaud[10] = {0, 4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600};
+
+
+static void SensorUartSend(uint8_t *p_data, uint32_t uiSize);
+static void SensorDataUpdata(uint32_t uiReg, uint32_t uiRegNum);
 
 
 /* USER CODE END PD */
@@ -58,25 +69,6 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint32_t uiBuad = 115200;
-uint8_t ucRxData = 0;
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-  if(huart->Instance==USART2)
-  {
-      WitSerialDataIn(ucRxData);
-      UART_Start_Receive_IT(huart, &ucRxData, 1);
-  }
-}
-#define ACC_UPDATE		0x01
-#define GYRO_UPDATE		0x02
-#define ANGLE_UPDATE	0x04
-#define MAG_UPDATE		0x08
-#define READ_UPDATE		0x80
-static char s_cDataUpdate = 0;
-static void AutoScanSensor(void);
-static void SensorUartSend(uint8_t *p_data, uint32_t uiSize);
-static void CopeSensorData(uint32_t uiReg, uint32_t uiRegNum);
 
 
 /* USER CODE END 0 */
@@ -88,8 +80,8 @@ static void CopeSensorData(uint32_t uiReg, uint32_t uiRegNum);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  float fAcc[3], fGyro[3], fAngle[3], fYaw;
-	int i;
+  float fAcc[3], fGyro[3], fAngle[3];
+  int i;
 
   /* USER CODE END 1 */
 
@@ -116,13 +108,11 @@ int main(void)
   /* USER CODE BEGIN 2 */
   
   WitInit(WIT_PROTOCOL_NORMAL, 0x50);
-	  WitSerialWriteRegister(SensorUartSend);
-	  WitRegisterCallBack(CopeSensorData);
-
+  WitSerialWriteRegister(SensorUartSend);
+	  WitRegisterCallBack(SensorDataUpdata);
+	  WitDelayMsRegister(HAL_Delay);
 	  printf("\r\n********************** wit-motion normal example	************************\r\n");
   
-  AutoScanSensor();
-  printf("1");
 
   /* USER CODE END 2 */
 
@@ -133,11 +123,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	printf("2");
-      HAL_Delay(500);   //避免刷新太快观察不清楚
+	 HAL_Delay(500); 
+	  printf("hello");
 		if(s_cDataUpdate)
 		{
-			printf("3");
 			for(i = 0; i < 3; i++)
 			{
 				fAcc[i] = sReg[AX+i] / 32768.0f * 16.0f;
@@ -156,8 +145,7 @@ int main(void)
 			}
 			if(s_cDataUpdate & ANGLE_UPDATE)
 			{
-                fYaw = (float)((unsigned short)sReg[Yaw]) / 32768 * 180.0;
-				printf("angle:%.3f %.3f %.3f(%.3f)\r\n", fAngle[0], fAngle[1], fAngle[2], fYaw);
+				printf("angle:%.3f %.3f %.3f\r\n", fAngle[0], fAngle[1], fAngle[2]);
 				s_cDataUpdate &= ~ANGLE_UPDATE;
 			}
 			if(s_cDataUpdate & MAG_UPDATE)
@@ -165,9 +153,8 @@ int main(void)
 				printf("mag:%d %d %d\r\n", sReg[HX], sReg[HY], sReg[HZ]);
 				s_cDataUpdate &= ~MAG_UPDATE;
 			}
-            s_cDataUpdate = 0;
 		}
-  	}
+	} 
 	
    
 	  
@@ -216,27 +203,65 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void CopeCmdData(unsigned char ucData)
+{
+	static unsigned char s_ucData[50], s_ucRxCnt = 0;
+	
+	s_ucData[s_ucRxCnt++] = ucData;
+	if(s_ucRxCnt<3)return;										//Less than three data returned
+	if(s_ucRxCnt >= 50) s_ucRxCnt = 0;
+	if(s_ucRxCnt >= 3)
+	{
+		if((s_ucData[1] == '\r') && (s_ucData[2] == '\n'))
+		{
+			s_cCmd = s_ucData[0];
+			memset(s_ucData,0,50);//
+			s_ucRxCnt = 0;
+		}
+		else 
+		{
+			s_ucData[0] = s_ucData[1];
+			s_ucData[1] = s_ucData[2];
+			s_ucRxCnt = 2;
+			
+		}
+	}
+
+}
+
+
 
 static void SensorUartSend(uint8_t *p_data, uint32_t uiSize)
 {
-    HAL_UART_Transmit(&huart2, p_data, uiSize, uiSize*4);
+    HAL_UART_Transmit(&huart1, p_data, uiSize, uiSize*4);
 }
-static void CopeSensorData(uint32_t uiReg, uint32_t uiRegNum)
+
+
+
+static void SensorDataUpdata(uint32_t uiReg, uint32_t uiRegNum)
 {
 	int i;
     for(i = 0; i < uiRegNum; i++)
     {
         switch(uiReg)
         {
+//            case AX:
+//            case AY:
             case AZ:
 				s_cDataUpdate |= ACC_UPDATE;
             break;
+//            case GX:
+//            case GY:
             case GZ:
 				s_cDataUpdate |= GYRO_UPDATE;
             break;
+//            case HX:
+//            case HY:
             case HZ:
 				s_cDataUpdate |= MAG_UPDATE;
             break;
+//            case Roll:
+//            case Pitch:
             case Yaw:
 				s_cDataUpdate |= ANGLE_UPDATE;
             break;
@@ -246,33 +271,6 @@ static void CopeSensorData(uint32_t uiReg, uint32_t uiRegNum)
         }
 		uiReg++;
     }
-}
-
-static void AutoScanSensor(void)
-{
-	const uint32_t c_uiBaud[9] = {4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600};
-	int i, iRetry;
-	
-	for(i = 0; i < 9; i++)
-	{
-        uiBuad = c_uiBaud[i];
-        MX_USART1_UART_Init();
-		iRetry = 2;
-		do
-		{
-			s_cDataUpdate = 0;
-			WitReadReg(AX, 3);
-			HAL_Delay(100);
-			if(s_cDataUpdate != 0)
-			{
-				printf("%d baud find sensor\r\n\r\n", c_uiBaud[i]);
-				return ;
-			}
-			iRetry--;
-		}while(iRetry);		
-	}
-	printf("can not find sensor\r\n");
-	printf("please check your connection\r\n");
 }
 
 
