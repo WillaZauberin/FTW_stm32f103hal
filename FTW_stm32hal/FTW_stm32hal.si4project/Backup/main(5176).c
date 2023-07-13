@@ -46,7 +46,7 @@ const uint32_t c_uiBaud[10] = {0, 4800, 9600, 19200, 38400, 57600, 115200, 23040
 
 static void SensorUartSend(uint8_t *p_data, uint32_t uiSize);
 static void SensorDataUpdata(uint32_t uiReg, uint32_t uiRegNum);
-
+static void Delayms(uint16_t ucMs);
 
 /* USER CODE END PD */
 
@@ -228,7 +228,23 @@ void CopeCmdData(unsigned char ucData)
 	}
 
 }
-
+static void ShowHelp(void)
+{
+	printf("\r\n************************	 WIT_SDK_DEMO	************************");
+	printf("\r\n************************          HELP           ************************\r\n");
+	printf("UART SEND:a\\r\\n   Acceleration calibration.\r\n");
+	printf("UART SEND:m\\r\\n   Magnetic field calibration,After calibration send:   e\\r\\n   to indicate the end\r\n");
+	printf("UART SEND:U\\r\\n   Bandwidth increase.\r\n");
+	printf("UART SEND:u\\r\\n   Bandwidth reduction.\r\n");
+	printf("UART SEND:B\\r\\n   Baud rate increased to 115200.\r\n");
+	printf("UART SEND:b\\r\\n   Baud rate reduction to 9600.\r\n");
+	printf("UART SEND:R\\r\\n   The return rate increases to 10Hz.\r\n");
+	printf("UART SEND:r\\r\\n   The return rate reduction to 1Hz.\r\n");
+	printf("UART SEND:C\\r\\n   Basic return content: acceleration, angular velocity, angle, magnetic field.\r\n");
+	printf("UART SEND:c\\r\\n   Return content: acceleration.\r\n");
+	printf("UART SEND:h\\r\\n   help.\r\n");
+	printf("******************************************************************************\r\n");
+}
 
 
 static void SensorUartSend(uint8_t *p_data, uint32_t uiSize)

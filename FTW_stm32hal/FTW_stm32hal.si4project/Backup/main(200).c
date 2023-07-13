@@ -43,10 +43,10 @@
 static volatile char s_cDataUpdate = 0, s_cCmd = 0xff;
 const uint32_t c_uiBaud[10] = {0, 4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600};
 
-
+static void AutoScanSensor(void);
 static void SensorUartSend(uint8_t *p_data, uint32_t uiSize);
 static void SensorDataUpdata(uint32_t uiReg, uint32_t uiRegNum);
-
+static void Delayms(uint16_t ucMs);
 
 /* USER CODE END PD */
 
@@ -110,9 +110,9 @@ int main(void)
   WitInit(WIT_PROTOCOL_NORMAL, 0x50);
   WitSerialWriteRegister(SensorUartSend);
 	  WitRegisterCallBack(SensorDataUpdata);
-	  WitDelayMsRegister(HAL_Delay);
+	  WitDelayMsRegister(Delayms);
 	  printf("\r\n********************** wit-motion normal example	************************\r\n");
-  
+  AutoScanSensor();
 
   /* USER CODE END 2 */
 
@@ -124,7 +124,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	 HAL_Delay(500); 
-	  printf("hello");
+	
 		if(s_cDataUpdate)
 		{
 			for(i = 0; i < 3; i++)
@@ -156,7 +156,7 @@ int main(void)
 		}
 	} 
 	
-   
+     // printf("hello");
 	  
   }
   
@@ -228,7 +228,23 @@ void CopeCmdData(unsigned char ucData)
 	}
 
 }
-
+static void ShowHelp(void)
+{
+	printf("\r\n************************	 WIT_SDK_DEMO	************************");
+	printf("\r\n************************          HELP           ************************\r\n");
+	printf("UART SEND:a\\r\\n   Acceleration calibration.\r\n");
+	printf("UART SEND:m\\r\\n   Magnetic field calibration,After calibration send:   e\\r\\n   to indicate the end\r\n");
+	printf("UART SEND:U\\r\\n   Bandwidth increase.\r\n");
+	printf("UART SEND:u\\r\\n   Bandwidth reduction.\r\n");
+	printf("UART SEND:B\\r\\n   Baud rate increased to 115200.\r\n");
+	printf("UART SEND:b\\r\\n   Baud rate reduction to 9600.\r\n");
+	printf("UART SEND:R\\r\\n   The return rate increases to 10Hz.\r\n");
+	printf("UART SEND:r\\r\\n   The return rate reduction to 1Hz.\r\n");
+	printf("UART SEND:C\\r\\n   Basic return content: acceleration, angular velocity, angle, magnetic field.\r\n");
+	printf("UART SEND:c\\r\\n   Return content: acceleration.\r\n");
+	printf("UART SEND:h\\r\\n   help.\r\n");
+	printf("******************************************************************************\r\n");
+}
 
 
 static void SensorUartSend(uint8_t *p_data, uint32_t uiSize)
@@ -273,6 +289,31 @@ static void SensorDataUpdata(uint32_t uiReg, uint32_t uiRegNum)
     }
 }
 
+static void AutoScanSensor(void)
+{
+	int i, iRetry;
+	
+	for(i = 1; i < 10; i++)
+	{
+		Usart2Init(c_uiBaud[i]);
+		iRetry = 2;
+		do
+		{
+			s_cDataUpdate = 0;
+			WitReadReg(AX, 3);
+			delay_ms(100);
+			if(s_cDataUpdate != 0)
+			{
+				printf("%d baud find sensor\r\n\r\n", c_uiBaud[i]);
+				ShowHelp();
+				return ;
+			}
+			iRetry--;
+		}while(iRetry);		
+	}
+	printf("can not find sensor\r\n");
+	printf("please check your connection\r\n");
+}
 
 
 /* USER CODE END 4 */
