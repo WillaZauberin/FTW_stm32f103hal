@@ -18,14 +18,10 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "usart.h"
-#include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdio.h>
-#include <string.h>
-#include "wit_c_sdk.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,19 +41,33 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+UART_HandleTypeDef huart1;
+UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 //UART_HandleTypeDef huart2;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-void SystemClock_Config(void);
-/* USER CODE BEGIN PFP */
 
+/* USER CODE BEGIN PFP */
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_USART1_UART_Init(void);
+static void MX_USART2_UART_Init(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+#include <stdio.h>
+#include <string.h>
+#include "wit_c_sdk.h"
+
+int fputc(int ch, FILE *file)
+{
+    HAL_UART_Transmit(&huart1, (uint8_t*)&ch, 1, 1);
+    return ch;
+}
 uint32_t uiBuad = 115200;
 uint8_t ucRxData = 0;
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
@@ -68,6 +78,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
       UART_Start_Receive_IT(huart, &ucRxData, 1);
   }
 }
+
 #define ACC_UPDATE		0x01
 #define GYRO_UPDATE		0x02
 #define ANGLE_UPDATE	0x04
@@ -116,10 +127,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
   
   WitInit(WIT_PROTOCOL_NORMAL, 0x50);
-	  WitSerialWriteRegister(SensorUartSend);
-	  WitRegisterCallBack(CopeSensorData);
-
-	  printf("\r\n********************** wit-motion normal example	************************\r\n");
+  WitSerialWriteRegister(SensorUartSend);
+  WitRegisterCallBack(CopeSensorData);
+printf("\r\n********************** wit-motion normal example	************************\r\n");
   
   AutoScanSensor();
   printf("1");
@@ -134,7 +144,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	printf("2");
-      HAL_Delay(500);   //避免刷新太快观察不清楚
+      HAL_Delay(500);   //避免刷新太快观察不清�?
 		if(s_cDataUpdate)
 		{
 			printf("3");
@@ -168,7 +178,7 @@ int main(void)
             s_cDataUpdate = 0;
 		}
   	}
-	
+	printf("3");
    
 	  
   }
@@ -215,11 +225,90 @@ void SystemClock_Config(void)
   }
 }
 
+/**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
+
+}
+
+/**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART2_Init 0 */
+
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+
+  /* USER CODE END USART2_Init 1 */
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 9600;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART2_Init 2 */
+UART_Start_Receive_IT(&huart2, &ucRxData, 1);
+  /* USER CODE END USART2_Init 2 */
+
+}
+
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init(void)
+{
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+
+}
+
 /* USER CODE BEGIN 4 */
 
 static void SensorUartSend(uint8_t *p_data, uint32_t uiSize)
 {
-    HAL_UART_Transmit(&huart2, p_data, uiSize, uiSize*4);
+    HAL_UART_Transmit(&huart1, p_data, uiSize, uiSize*4);
 }
 static void CopeSensorData(uint32_t uiReg, uint32_t uiRegNum)
 {
@@ -256,7 +345,7 @@ static void AutoScanSensor(void)
 	for(i = 0; i < 9; i++)
 	{
         uiBuad = c_uiBaud[i];
-        MX_USART1_UART_Init();
+        MX_USART2_UART_Init();
 		iRetry = 2;
 		do
 		{

@@ -1,8 +1,6 @@
 --cpu Cortex-M3
 "ftw_stm32hal\startup_stm32f103xe.o"
 "ftw_stm32hal\main.o"
-"ftw_stm32hal\gpio.o"
-"ftw_stm32hal\usart.o"
 "ftw_stm32hal\stm32f1xx_it.o"
 "ftw_stm32hal\stm32f1xx_hal_msp.o"
 "ftw_stm32hal\stm32f1xx_hal_gpio_ex.o"

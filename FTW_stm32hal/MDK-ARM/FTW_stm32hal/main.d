@@ -26,8 +26,6 @@ ftw_stm32hal\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 ftw_stm32hal\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 ftw_stm32hal\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 ftw_stm32hal\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-ftw_stm32hal\main.o: ../Core/Inc/usart.h
-ftw_stm32hal\main.o: ../Core/Inc/gpio.h
 ftw_stm32hal\main.o: E:\ruanjianxiazai\MDK5\ARM\ARMCC\Bin\..\include\stdio.h
 ftw_stm32hal\main.o: E:\ruanjianxiazai\MDK5\ARM\ARMCC\Bin\..\include\string.h
 ftw_stm32hal\main.o: ../wit_c_sdk/wit_c_sdk.h
