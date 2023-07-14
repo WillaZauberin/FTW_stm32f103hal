@@ -24,9 +24,14 @@ ftw_stm32hal\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
 ftw_stm32hal\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
 ftw_stm32hal\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 ftw_stm32hal\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
+ftw_stm32hal\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 ftw_stm32hal\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 ftw_stm32hal\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+ftw_stm32hal\main.o: ../Core/Inc/i2c.h
+ftw_stm32hal\main.o: ../Core/Inc/usart.h
+ftw_stm32hal\main.o: ../Core/Inc/gpio.h
 ftw_stm32hal\main.o: E:\ruanjianxiazai\MDK5\ARM\ARMCC\Bin\..\include\stdio.h
 ftw_stm32hal\main.o: E:\ruanjianxiazai\MDK5\ARM\ARMCC\Bin\..\include\string.h
 ftw_stm32hal\main.o: ../wit_c_sdk/wit_c_sdk.h
 ftw_stm32hal\main.o: ../wit_c_sdk/REG.h
+ftw_stm32hal\main.o: ..\settings\IOI2C.h

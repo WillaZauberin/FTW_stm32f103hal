@@ -297,13 +297,17 @@ int32_t WitReadReg(uint32_t uiReg, uint32_t uiReadNum)
     {
         case WIT_PROTOCOL_NORMAL:
             if(uiReadNum > 4)return WIT_HAL_INVAL;
-            if(p_WitSerialWriteFunc == NULL)return WIT_HAL_EMPTY;
+            if(p_WitSerialWriteFunc == NULL){
+				printf("error");
+			return WIT_HAL_EMPTY;
+			}
             ucBuff[0] = 0xFF;
             ucBuff[1] = 0xAA;
             ucBuff[2] = 0x27;
             ucBuff[3] = uiReg & 0xff;
             ucBuff[4] = uiReg >> 8;
             p_WitSerialWriteFunc(ucBuff, 5);
+			printf("empty");
             break;
         case WIT_PROTOCOL_MODBUS:
             if(p_WitSerialWriteFunc == NULL)return WIT_HAL_EMPTY;

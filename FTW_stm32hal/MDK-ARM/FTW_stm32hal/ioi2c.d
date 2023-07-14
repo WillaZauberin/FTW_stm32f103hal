@@ -1,0 +1,12 @@
+ftw_stm32hal\ioi2c.o: ..\settings\IOI2C.c
+ftw_stm32hal\ioi2c.o: ..\settings\IOI2C.h
+ftw_stm32hal\ioi2c.o: E:\ruanjianxiazai\MDK5\Keil\STM32F1xx_DFP\2.4.1\Device\Include\stm32f10x.h
+ftw_stm32hal\ioi2c.o: .\RTE\_FTW_stm32hal\RTE_Components.h
+ftw_stm32hal\ioi2c.o: ../Drivers/CMSIS/Include/core_cm3.h
+ftw_stm32hal\ioi2c.o: E:\ruanjianxiazai\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+ftw_stm32hal\ioi2c.o: ../Drivers/CMSIS/Include/cmsis_version.h
+ftw_stm32hal\ioi2c.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
+ftw_stm32hal\ioi2c.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
+ftw_stm32hal\ioi2c.o: E:\ruanjianxiazai\MDK5\Keil\STM32F1xx_DFP\2.4.1\Device\Include\system_stm32f10x.h
+ftw_stm32hal\ioi2c.o: E:\ruanjianxiazai\MDK5\ARM\ARMCC\Bin\..\include\stdio.h
+ftw_stm32hal\ioi2c.o: E:\ruanjianxiazai\MDK5\ARM\ARMCC\Bin\..\include\string.h

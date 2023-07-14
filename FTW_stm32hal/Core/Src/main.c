@@ -18,6 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
+#include "usart.h"
+#include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -41,20 +44,18 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-UART_HandleTypeDef huart1;
-UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 //UART_HandleTypeDef huart2;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-
-/* USER CODE BEGIN PFP */
 void SystemClock_Config(void);
+/* USER CODE BEGIN PFP */
+
 static void MX_GPIO_Init(void);
 static void MX_USART1_UART_Init(void);
-static void MX_USART2_UART_Init(void);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -62,34 +63,19 @@ static void MX_USART2_UART_Init(void);
 #include <stdio.h>
 #include <string.h>
 #include "wit_c_sdk.h"
-
-int fputc(int ch, FILE *file)
-{
-    HAL_UART_Transmit(&huart1, (uint8_t*)&ch, 1, 1);
-    return ch;
-}
-uint32_t uiBuad = 115200;
-uint8_t ucRxData = 0;
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-  if(huart->Instance==USART2)
-  {
-      WitSerialDataIn(ucRxData);
-      UART_Start_Receive_IT(huart, &ucRxData, 1);
-  }
-}
+#include "IOI2C.h"
 
 #define ACC_UPDATE		0x01
 #define GYRO_UPDATE		0x02
 #define ANGLE_UPDATE	0x04
 #define MAG_UPDATE		0x08
 #define READ_UPDATE		0x80
-static char s_cDataUpdate = 0;
+static char s_cDataUpdate = 0, s_cCmd = 0xff;
 static void AutoScanSensor(void);
-static void SensorUartSend(uint8_t *p_data, uint32_t uiSize);
+//static void SensorUartSend(uint8_t *p_data, uint32_t uiSize);
 static void CopeSensorData(uint32_t uiReg, uint32_t uiRegNum);
-
-
+static void Delayms(uint16_t ucMs);
+static void CmdProcess(void);
 /* USER CODE END 0 */
 
 /**
@@ -122,13 +108,14 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USART2_UART_Init();
   MX_USART1_UART_Init();
+  MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
   
   WitInit(WIT_PROTOCOL_NORMAL, 0x50);
-  WitSerialWriteRegister(SensorUartSend);
-  WitRegisterCallBack(CopeSensorData);
+WitI2cFuncRegister(IICwriteBytes, IICreadBytes);
+WitRegisterCallBack(CopeSensorData);
+WitDelayMsRegister(Delayms);
 printf("\r\n********************** wit-motion normal example	************************\r\n");
   
   AutoScanSensor();
@@ -143,11 +130,12 @@ printf("\r\n********************** wit-motion normal example	*******************
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	printf("2");
-      HAL_Delay(500);   //避免刷新太快观察不清�?
+	//printf("2");
+      WitReadReg(AX, 12);
+		HAL_Delay(500);
+		CmdProcess();
 		if(s_cDataUpdate)
 		{
-			printf("3");
 			for(i = 0; i < 3; i++)
 			{
 				fAcc[i] = sReg[AX+i] / 32768.0f * 16.0f;
@@ -166,8 +154,7 @@ printf("\r\n********************** wit-motion normal example	*******************
 			}
 			if(s_cDataUpdate & ANGLE_UPDATE)
 			{
-                fYaw = (float)((unsigned short)sReg[Yaw]) / 32768 * 180.0;
-				printf("angle:%.3f %.3f %.3f(%.3f)\r\n", fAngle[0], fAngle[1], fAngle[2], fYaw);
+				printf("angle:%.3f %.3f %.3f\r\n", fAngle[0], fAngle[1], fAngle[2]);
 				s_cDataUpdate &= ~ANGLE_UPDATE;
 			}
 			if(s_cDataUpdate & MAG_UPDATE)
@@ -175,10 +162,13 @@ printf("\r\n********************** wit-motion normal example	*******************
 				printf("mag:%d %d %d\r\n", sReg[HX], sReg[HY], sReg[HZ]);
 				s_cDataUpdate &= ~MAG_UPDATE;
 			}
-            s_cDataUpdate = 0;
 		}
+	
+
+//printf("3");
   	}
-	printf("3");
+
+	
    
 	  
   }
@@ -225,90 +215,85 @@ void SystemClock_Config(void)
   }
 }
 
-/**
-  * @brief USART1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USART1_UART_Init(void)
-{
-
-  /* USER CODE BEGIN USART1_Init 0 */
-
-  /* USER CODE END USART1_Init 0 */
-
-  /* USER CODE BEGIN USART1_Init 1 */
-
-  /* USER CODE END USART1_Init 1 */
-  huart1.Instance = USART1;
-  huart1.Init.BaudRate = 115200;
-  huart1.Init.WordLength = UART_WORDLENGTH_8B;
-  huart1.Init.StopBits = UART_STOPBITS_1;
-  huart1.Init.Parity = UART_PARITY_NONE;
-  huart1.Init.Mode = UART_MODE_TX_RX;
-  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USART1_Init 2 */
-
-  /* USER CODE END USART1_Init 2 */
-
-}
-
-/**
-  * @brief USART2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USART2_UART_Init(void)
-{
-
-  /* USER CODE BEGIN USART2_Init 0 */
-
-  /* USER CODE END USART2_Init 0 */
-
-  /* USER CODE BEGIN USART2_Init 1 */
-
-  /* USER CODE END USART2_Init 1 */
-  huart2.Instance = USART2;
-  huart2.Init.BaudRate = 9600;
-  huart2.Init.WordLength = UART_WORDLENGTH_8B;
-  huart2.Init.StopBits = UART_STOPBITS_1;
-  huart2.Init.Parity = UART_PARITY_NONE;
-  huart2.Init.Mode = UART_MODE_TX_RX;
-  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USART2_Init 2 */
-UART_Start_Receive_IT(&huart2, &ucRxData, 1);
-  /* USER CODE END USART2_Init 2 */
-
-}
-
-/**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_GPIO_Init(void)
-{
-
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-
-}
-
 /* USER CODE BEGIN 4 */
 
-static void SensorUartSend(uint8_t *p_data, uint32_t uiSize)
+void CopeCmdData(unsigned char ucData)
 {
-    HAL_UART_Transmit(&huart1, p_data, uiSize, uiSize*4);
+	static unsigned char s_ucData[50], s_ucRxCnt = 0;
+	
+	s_ucData[s_ucRxCnt++] = ucData;
+	if(s_ucRxCnt<3)return;										//Less than three data returned
+	if(s_ucRxCnt >= 50) s_ucRxCnt = 0;
+	if(s_ucRxCnt >= 3)
+	{
+		if((s_ucData[1] == '\r') && (s_ucData[2] == '\n'))
+		{
+			s_cCmd = s_ucData[0];
+			memset(s_ucData,0,50);//
+			s_ucRxCnt = 0;
+		}
+		else 
+		{
+			s_ucData[0] = s_ucData[1];
+			s_ucData[1] = s_ucData[2];
+			s_ucRxCnt = 2;
+			
+		}
+	}
+
+}
+static void ShowHelp(void)
+{
+	printf("\r\n************************	 WIT_SDK_DEMO	************************");
+	printf("\r\n************************          HELP           ************************\r\n");
+	printf("UART SEND:a\\r\\n   Acceleration calibration.\r\n");
+	printf("UART SEND:m\\r\\n   Magnetic field calibration,After calibration send:   e\\r\\n   to indicate the end\r\n");
+	printf("UART SEND:U\\r\\n   Bandwidth increase.\r\n");
+	printf("UART SEND:u\\r\\n   Bandwidth reduction.\r\n");
+	printf("UART SEND:B\\r\\n   Baud rate increased to 115200.\r\n");
+	printf("UART SEND:b\\r\\n   Baud rate reduction to 9600.\r\n");
+	printf("UART SEND:h\\r\\n   help.\r\n");
+	printf("******************************************************************************\r\n");
+}
+
+static void CmdProcess(void)
+{
+	switch(s_cCmd)
+	{
+		case 'a':	
+				if(WitStartAccCali() != WIT_HAL_OK) 
+					printf("\r\nSet AccCali Error\r\n");
+			break;
+		case 'm':	
+				if(WitStartMagCali() != WIT_HAL_OK) 
+					printf("\r\nStart MagCali Error\r\n");
+			break;
+		case 'e':	
+				if(WitStopMagCali() != WIT_HAL_OK) 
+					printf("\r\nEnd MagCali Error\r\n");
+			break;
+		case 'u':	
+				if(WitSetBandwidth(BANDWIDTH_5HZ) != WIT_HAL_OK) 
+					printf("\r\nSet Bandwidth Error\r\n");
+			break;
+		case 'U':	
+				if(WitSetBandwidth(BANDWIDTH_256HZ) != WIT_HAL_OK)
+					printf("\r\nSet Bandwidth Error\r\n");
+			break;
+		case 'B':	
+				if(WitSetUartBaud(WIT_BAUD_115200) != WIT_HAL_OK) 
+					printf("\r\nSet Baud Error\r\n");
+			break;
+		case 'b':	
+				if(WitSetUartBaud(WIT_BAUD_9600) != WIT_HAL_OK) 
+					printf("\r\nSet Baud Error\r\n");
+			break;
+		case 'h':	
+				ShowHelp();
+			break;
+		default : return ;
+	}
+	s_cCmd = 0xff;
 }
 static void CopeSensorData(uint32_t uiReg, uint32_t uiRegNum)
 {
@@ -339,22 +324,21 @@ static void CopeSensorData(uint32_t uiReg, uint32_t uiRegNum)
 
 static void AutoScanSensor(void)
 {
-	const uint32_t c_uiBaud[9] = {4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600};
 	int i, iRetry;
 	
-	for(i = 0; i < 9; i++)
+	for(i = 0; i < 0x7F; i++)
 	{
-        uiBuad = c_uiBaud[i];
-        MX_USART2_UART_Init();
+		WitInit(WIT_PROTOCOL_I2C, i);
 		iRetry = 2;
 		do
 		{
 			s_cDataUpdate = 0;
 			WitReadReg(AX, 3);
-			HAL_Delay(100);
+			HAL_Delay(5);
 			if(s_cDataUpdate != 0)
 			{
-				printf("%d baud find sensor\r\n\r\n", c_uiBaud[i]);
+				printf("find %02X addr sensor\r\n", i);
+				ShowHelp();
 				return ;
 			}
 			iRetry--;
@@ -365,7 +349,10 @@ static void AutoScanSensor(void)
 }
 
 
-
+static void Delayms(uint16_t ucMs)
+{
+	HAL_Delay(ucMs);
+}
 /* USER CODE END 4 */
 
 /**
