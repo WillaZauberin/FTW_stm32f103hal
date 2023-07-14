@@ -298,7 +298,7 @@ int32_t WitReadReg(uint32_t uiReg, uint32_t uiReadNum)
         case WIT_PROTOCOL_NORMAL:
             if(uiReadNum > 4)return WIT_HAL_INVAL;
             if(p_WitSerialWriteFunc == NULL){
-				printf("error");
+				printf("error\r\n");
 			return WIT_HAL_EMPTY;
 			}
             ucBuff[0] = 0xFF;

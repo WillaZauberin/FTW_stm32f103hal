@@ -70,6 +70,7 @@ static void MX_USART1_UART_Init(void);
 #define ANGLE_UPDATE	0x04
 #define MAG_UPDATE		0x08
 #define READ_UPDATE		0x80
+uint32_t uiBuad = 115200;
 static char s_cDataUpdate = 0, s_cCmd = 0xff;
 static void AutoScanSensor(void);
 //static void SensorUartSend(uint8_t *p_data, uint32_t uiSize);
@@ -115,7 +116,7 @@ int main(void)
   WitInit(WIT_PROTOCOL_NORMAL, 0x50);
 WitI2cFuncRegister(IICwriteBytes, IICreadBytes);
 WitRegisterCallBack(CopeSensorData);
-WitDelayMsRegister(Delayms);
+WitDelayMsRegister(HAL_Delay);
 printf("\r\n********************** wit-motion normal example	************************\r\n");
   
   AutoScanSensor();
@@ -130,7 +131,7 @@ printf("\r\n********************** wit-motion normal example	*******************
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	//printf("2");
+	printf("2");
       WitReadReg(AX, 12);
 		HAL_Delay(500);
 		CmdProcess();
@@ -321,7 +322,7 @@ static void CopeSensorData(uint32_t uiReg, uint32_t uiRegNum)
 		uiReg++;
     }
 }
-
+#if 0
 static void AutoScanSensor(void)
 {
 	int i, iRetry;
@@ -334,7 +335,7 @@ static void AutoScanSensor(void)
 		{
 			s_cDataUpdate = 0;
 			WitReadReg(AX, 3);
-			HAL_Delay(5);
+			HAL_Delay(100);
 			if(s_cDataUpdate != 0)
 			{
 				printf("find %02X addr sensor\r\n", i);
@@ -347,7 +348,37 @@ static void AutoScanSensor(void)
 	printf("can not find sensor\r\n");
 	printf("please check your connection\r\n");
 }
+#endif
 
+#if 1
+static void AutoScanSensor(void)
+{
+	const uint32_t c_uiBaud[9] = {4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600};
+	int i, iRetry;
+	
+	for(i = 0; i < 9; i++)
+	{
+		WitInit(WIT_PROTOCOL_I2C, i);//加上这一句会出现问题
+        uiBuad = c_uiBaud[i];
+        
+		iRetry = 2;
+		do
+		{
+			s_cDataUpdate = 0;
+			WitReadReg(AX, 3);
+			HAL_Delay(100);
+			if(s_cDataUpdate != 0)
+			{
+				printf("%d baud find sensor\r\n\r\n", c_uiBaud[i]);
+				return ;
+			}
+			iRetry--;
+		}while(iRetry);		
+	}
+	printf("can not find sensor\r\n");
+	printf("please check your connection\r\n");
+}
+#endif
 
 static void Delayms(uint16_t ucMs)
 {

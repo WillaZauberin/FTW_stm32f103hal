@@ -3,7 +3,7 @@
 <title>Static Call Graph - [FTW_stm32hal\FTW_stm32hal.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image FTW_stm32hal\FTW_stm32hal.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Jul 14 10:49:56 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Jul 14 11:08:05 2023
 <BR><P>
 <H3>Maximum Stack Usage =        192 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -41,7 +41,6 @@ Function Pointers
  <LI><a href="#[44]">DMA2_Channel3_IRQHandler</a> from startup_stm32f103xe.o(.text) referenced from startup_stm32f103xe.o(RESET)
  <LI><a href="#[45]">DMA2_Channel4_5_IRQHandler</a> from startup_stm32f103xe.o(.text) referenced from startup_stm32f103xe.o(RESET)
  <LI><a href="#[7]">DebugMon_Handler</a> from stm32f1xx_it.o(i.DebugMon_Handler) referenced from startup_stm32f103xe.o(RESET)
- <LI><a href="#[4e]">Delayms</a> from main.o(i.Delayms) referenced from main.o(i.main)
  <LI><a href="#[10]">EXTI0_IRQHandler</a> from startup_stm32f103xe.o(.text) referenced from startup_stm32f103xe.o(RESET)
  <LI><a href="#[32]">EXTI15_10_IRQHandler</a> from startup_stm32f103xe.o(.text) referenced from startup_stm32f103xe.o(RESET)
  <LI><a href="#[11]">EXTI1_IRQHandler</a> from startup_stm32f103xe.o(.text) referenced from startup_stm32f103xe.o(RESET)
@@ -51,6 +50,7 @@ Function Pointers
  <LI><a href="#[21]">EXTI9_5_IRQHandler</a> from startup_stm32f103xe.o(.text) referenced from startup_stm32f103xe.o(RESET)
  <LI><a href="#[e]">FLASH_IRQHandler</a> from startup_stm32f103xe.o(.text) referenced from startup_stm32f103xe.o(RESET)
  <LI><a href="#[3a]">FSMC_IRQHandler</a> from startup_stm32f103xe.o(.text) referenced from startup_stm32f103xe.o(RESET)
+ <LI><a href="#[4e]">HAL_Delay</a> from stm32f1xx_hal.o(i.HAL_Delay) referenced from main.o(i.main)
  <LI><a href="#[2]">HardFault_Handler</a> from stm32f1xx_it.o(i.HardFault_Handler) referenced from startup_stm32f103xe.o(RESET)
  <LI><a href="#[2a]">I2C1_ER_IRQHandler</a> from startup_stm32f103xe.o(.text) referenced from startup_stm32f103xe.o(RESET)
  <LI><a href="#[29]">I2C1_EV_IRQHandler</a> from startup_stm32f103xe.o(.text) referenced from startup_stm32f103xe.o(RESET)
@@ -322,14 +322,22 @@ Global Symbols
 
 <P><STRONG><a name="[b2]"></a>_ll_ushift_r</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llushr.o(.text), UNUSED)
 
+<P><STRONG><a name="[b3]"></a>__aeabi_memcpy</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, memcpya.o(.text), UNUSED)
+
+<P><STRONG><a name="[64]"></a>__aeabi_memcpy4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memcpya.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AutoScanSensor
+</UL>
+
+<P><STRONG><a name="[b4]"></a>__aeabi_memcpy8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memcpya.o(.text), UNUSED)
+
 <P><STRONG><a name="[52]"></a>__aeabi_memset</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 <BR><BR>[Called By]<UL><LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_memset$wrapper
 <LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
 </UL>
 
-<P><STRONG><a name="[b3]"></a>__aeabi_memset4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<P><STRONG><a name="[b5]"></a>__aeabi_memset4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 
-<P><STRONG><a name="[b4]"></a>__aeabi_memset8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<P><STRONG><a name="[b6]"></a>__aeabi_memset8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 
 <P><STRONG><a name="[51]"></a>__aeabi_memclr</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
@@ -339,7 +347,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 </UL>
 
-<P><STRONG><a name="[b5]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<P><STRONG><a name="[b7]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 
 <P><STRONG><a name="[53]"></a>_memset$wrapper</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, memseta.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
@@ -355,7 +363,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[b6]"></a>scalbnf</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, fscalb.o(.text), UNUSED)
+<P><STRONG><a name="[b8]"></a>scalbnf</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, fscalb.o(.text), UNUSED)
 
 <P><STRONG><a name="[54]"></a>__aeabi_i2f</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, fflti.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = __aeabi_i2f &rArr; _float_epilogue
@@ -369,7 +377,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[b7]"></a>__aeabi_uidiv</STRONG> (Thumb, 0 bytes, Stack size 12 bytes, uidiv.o(.text), UNUSED)
+<P><STRONG><a name="[b9]"></a>__aeabi_uidiv</STRONG> (Thumb, 0 bytes, Stack size 12 bytes, uidiv.o(.text), UNUSED)
 
 <P><STRONG><a name="[a4]"></a>__aeabi_uidivmod</STRONG> (Thumb, 44 bytes, Stack size 12 bytes, uidiv.o(.text), UNUSED)
 <BR><BR>[Called By]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
@@ -383,9 +391,9 @@ Global Symbols
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
 </UL>
 
-<P><STRONG><a name="[b8]"></a>__I$use$fp</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, iusefp.o(.text), UNUSED)
+<P><STRONG><a name="[ba]"></a>__I$use$fp</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, iusefp.o(.text), UNUSED)
 
-<P><STRONG><a name="[b9]"></a>_float_round</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, fepilogue.o(.text), UNUSED)
+<P><STRONG><a name="[bb]"></a>_float_round</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, fepilogue.o(.text), UNUSED)
 
 <P><STRONG><a name="[55]"></a>_float_epilogue</STRONG> (Thumb, 92 bytes, Stack size 4 bytes, fepilogue.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = _float_epilogue
@@ -441,7 +449,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_main_scatterload
 </UL>
 
-<P><STRONG><a name="[ba]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
+<P><STRONG><a name="[bc]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
 
 <P><STRONG><a name="[58]"></a>__aeabi_llsl</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, llshl.o(.text), UNUSED)
 <BR><BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
@@ -450,13 +458,13 @@ Global Symbols
 <LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
 </UL>
 
-<P><STRONG><a name="[bb]"></a>_ll_shift_l</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llshl.o(.text), UNUSED)
+<P><STRONG><a name="[bd]"></a>_ll_shift_l</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llshl.o(.text), UNUSED)
 
 <P><STRONG><a name="[5a]"></a>__aeabi_lasr</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, llsshr.o(.text), UNUSED)
 <BR><BR>[Called By]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 </UL>
 
-<P><STRONG><a name="[bc]"></a>_ll_sshift_r</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llsshr.o(.text), UNUSED)
+<P><STRONG><a name="[be]"></a>_ll_sshift_r</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llsshr.o(.text), UNUSED)
 
 <P><STRONG><a name="[5c]"></a>_double_round</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, depilogue.o(.text), UNUSED)
 <BR><BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
@@ -481,8 +489,8 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f103xe.o(RESET)
 </UL>
 <P><STRONG><a name="[9c]"></a>CheckRange</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, wit_c_sdk.o(i.CheckRange))
-<BR><BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitSetUartBaud
-<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitSetBandwidth
+<BR><BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitSetUartBaud
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitSetBandwidth
 </UL>
 
 <P><STRONG><a name="[7]"></a>DebugMon_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f1xx_it.o(i.DebugMon_Handler))
@@ -505,7 +513,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
 </UL>
 
-<P><STRONG><a name="[66]"></a>HAL_Delay</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, stm32f1xx_hal.o(i.HAL_Delay))
+<P><STRONG><a name="[4e]"></a>HAL_Delay</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, stm32f1xx_hal.o(i.HAL_Delay))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = HAL_Delay
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
@@ -518,10 +526,10 @@ Global Symbols
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_NAck
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Ack
 <LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delayms
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AutoScanSensor
 </UL>
-
+<BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
+</UL>
 <P><STRONG><a name="[73]"></a>HAL_GPIO_Init</STRONG> (Thumb, 462 bytes, Stack size 40 bytes, stm32f1xx_hal_gpio.o(i.HAL_GPIO_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = HAL_GPIO_Init
 </UL>
@@ -533,7 +541,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
-<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
 </UL>
 
@@ -710,7 +718,7 @@ Global Symbols
 <P><STRONG><a name="[8c]"></a>IIC_Ack</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, i2c.o(i.IIC_Ack))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = IIC_Ack &rArr; HAL_Delay
 </UL>
-<BR>[Calls]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<BR>[Calls]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Read_Byte
 </UL>
@@ -718,7 +726,7 @@ Global Symbols
 <P><STRONG><a name="[8d]"></a>IIC_NAck</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, i2c.o(i.IIC_NAck))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = IIC_NAck &rArr; HAL_Delay
 </UL>
-<BR>[Calls]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<BR>[Calls]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Read_Byte
 </UL>
@@ -728,7 +736,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_NAck
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Ack
-<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IICreadBytes
 </UL>
@@ -736,7 +744,7 @@ Global Symbols
 <P><STRONG><a name="[8f]"></a>IIC_Send_Byte</STRONG> (Thumb, 86 bytes, Stack size 24 bytes, i2c.o(i.IIC_Send_Byte))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = IIC_Send_Byte &rArr; HAL_Delay
 </UL>
-<BR>[Calls]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<BR>[Calls]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IICwriteBytes
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IICreadBytes
@@ -745,7 +753,7 @@ Global Symbols
 <P><STRONG><a name="[90]"></a>IIC_Start</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, i2c.o(i.IIC_Start))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = IIC_Start &rArr; HAL_Delay
 </UL>
-<BR>[Calls]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<BR>[Calls]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IICwriteBytes
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IICreadBytes
@@ -754,7 +762,7 @@ Global Symbols
 <P><STRONG><a name="[91]"></a>IIC_Stop</STRONG> (Thumb, 58 bytes, Stack size 8 bytes, i2c.o(i.IIC_Stop))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = IIC_Stop &rArr; HAL_Delay
 </UL>
-<BR>[Calls]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<BR>[Calls]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Wait_Ack
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IICwriteBytes
@@ -765,7 +773,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = IIC_Wait_Ack &rArr; IIC_Stop &rArr; HAL_Delay
 </UL>
 <BR>[Calls]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Stop
-<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IICwriteBytes
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IICreadBytes
@@ -876,12 +884,12 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[64]"></a>WitInit</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, wit_c_sdk.o(i.WitInit))
+<P><STRONG><a name="[65]"></a>WitInit</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, wit_c_sdk.o(i.WitInit))
 <BR><BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AutoScanSensor
 </UL>
 
-<P><STRONG><a name="[65]"></a>WitReadReg</STRONG> (Thumb, 328 bytes, Stack size 48 bytes, wit_c_sdk.o(i.WitReadReg))
+<P><STRONG><a name="[66]"></a>WitReadReg</STRONG> (Thumb, 328 bytes, Stack size 48 bytes, wit_c_sdk.o(i.WitReadReg))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = WitReadReg &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
@@ -895,46 +903,46 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[6e]"></a>WitSetBandwidth</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, wit_c_sdk.o(i.WitSetBandwidth))
+<P><STRONG><a name="[6d]"></a>WitSetBandwidth</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, wit_c_sdk.o(i.WitSetBandwidth))
 <BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = WitSetBandwidth &rArr; WitWriteReg &rArr; __CRC16
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitWriteReg
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckRange
 </UL>
-<BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
+<BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
 </UL>
 
-<P><STRONG><a name="[6a]"></a>WitSetUartBaud</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, wit_c_sdk.o(i.WitSetUartBaud))
+<P><STRONG><a name="[69]"></a>WitSetUartBaud</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, wit_c_sdk.o(i.WitSetUartBaud))
 <BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = WitSetUartBaud &rArr; WitWriteReg &rArr; __CRC16
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitWriteReg
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckRange
 </UL>
-<BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
+<BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
 </UL>
 
-<P><STRONG><a name="[6b]"></a>WitStartAccCali</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, wit_c_sdk.o(i.WitStartAccCali))
+<P><STRONG><a name="[6a]"></a>WitStartAccCali</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, wit_c_sdk.o(i.WitStartAccCali))
 <BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = WitStartAccCali &rArr; WitWriteReg &rArr; __CRC16
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitWriteReg
 </UL>
-<BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
+<BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
 </UL>
 
-<P><STRONG><a name="[6c]"></a>WitStartMagCali</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, wit_c_sdk.o(i.WitStartMagCali))
+<P><STRONG><a name="[6b]"></a>WitStartMagCali</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, wit_c_sdk.o(i.WitStartMagCali))
 <BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = WitStartMagCali &rArr; WitWriteReg &rArr; __CRC16
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitWriteReg
 </UL>
-<BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
+<BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
 </UL>
 
-<P><STRONG><a name="[6d]"></a>WitStopMagCali</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, wit_c_sdk.o(i.WitStopMagCali))
+<P><STRONG><a name="[6c]"></a>WitStopMagCali</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, wit_c_sdk.o(i.WitStopMagCali))
 <BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = WitStopMagCali &rArr; WitWriteReg &rArr; __CRC16
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitWriteReg
 </UL>
-<BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
+<BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
 </UL>
 
 <P><STRONG><a name="[9d]"></a>WitWriteReg</STRONG> (Thumb, 228 bytes, Stack size 40 bytes, wit_c_sdk.o(i.WitWriteReg))
@@ -942,38 +950,38 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__CRC16
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitStopMagCali
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitStartMagCali
-<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitStartAccCali
-<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitSetUartBaud
-<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitSetBandwidth
+<BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitStopMagCali
+<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitStartMagCali
+<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitStartAccCali
+<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitSetUartBaud
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitSetBandwidth
 </UL>
 
 <P><STRONG><a name="[9e]"></a>__0printf</STRONG> (Thumb, 22 bytes, Stack size 24 bytes, printfa.o(i.__0printf), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
 </UL>
 
-<P><STRONG><a name="[bd]"></a>__1printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printfa.o(i.__0printf), UNUSED)
+<P><STRONG><a name="[bf]"></a>__1printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printfa.o(i.__0printf), UNUSED)
 
 <P><STRONG><a name="[67]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printfa.o(i.__0printf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = __2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitReadReg
+<BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitReadReg
 <LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShowHelp
-<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShowHelp
+<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AutoScanSensor
 </UL>
 
-<P><STRONG><a name="[be]"></a>__c89printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printfa.o(i.__0printf), UNUSED)
+<P><STRONG><a name="[c0]"></a>__c89printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printfa.o(i.__0printf), UNUSED)
 
-<P><STRONG><a name="[bf]"></a>printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printfa.o(i.__0printf), UNUSED)
+<P><STRONG><a name="[c1]"></a>printf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printfa.o(i.__0printf), UNUSED)
 
-<P><STRONG><a name="[c0]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
+<P><STRONG><a name="[c2]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
 
-<P><STRONG><a name="[c1]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
+<P><STRONG><a name="[c3]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
 
-<P><STRONG><a name="[c2]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
+<P><STRONG><a name="[c4]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
 <P><STRONG><a name="[4a]"></a>fputc</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, usart.o(i.fputc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = fputc &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
@@ -982,7 +990,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> printfa.o(i.__0printf)
 </UL>
-<P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 400 bytes, Stack size 56 bytes, main.o(i.main))
+<P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 408 bytes, Stack size 56 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = main &rArr; SystemClock_Config &rArr; HAL_RCC_ClockConfig &rArr; HAL_InitTick &rArr; HAL_NVIC_SetPriority
 </UL>
 <BR>[Calls]<UL><LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
@@ -990,17 +998,17 @@ Global Symbols
 <LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbnf
 <LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitRegisterCallBack
-<LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitReadReg
-<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitInit
+<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitReadReg
+<LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitInit
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitI2cFuncRegister
 <LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitDelayMsRegister
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_I2C2_Init
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
-<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
-<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
+<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AutoScanSensor
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
@@ -1009,27 +1017,27 @@ Global Symbols
 <H3>
 Local Symbols
 </H3>
-<P><STRONG><a name="[63]"></a>AutoScanSensor</STRONG> (Thumb, 82 bytes, Stack size 24 bytes, main.o(i.AutoScanSensor))
-<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = AutoScanSensor &rArr; WitReadReg &rArr; __2printf
+<P><STRONG><a name="[63]"></a>AutoScanSensor</STRONG> (Thumb, 100 bytes, Stack size 64 bytes, main.o(i.AutoScanSensor))
+<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = AutoScanSensor &rArr; WitReadReg &rArr; __2printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitReadReg
-<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitInit
-<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
-<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShowHelp
+<BR>[Calls]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitReadReg
+<LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitInit
+<LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[69]"></a>CmdProcess</STRONG> (Thumb, 126 bytes, Stack size 8 bytes, main.o(i.CmdProcess))
+<P><STRONG><a name="[68]"></a>CmdProcess</STRONG> (Thumb, 126 bytes, Stack size 8 bytes, main.o(i.CmdProcess))
 <BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = CmdProcess &rArr; WitSetUartBaud &rArr; WitWriteReg &rArr; __CRC16
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitStopMagCali
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitStartMagCali
-<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitStartAccCali
-<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitSetUartBaud
-<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitSetBandwidth
-<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShowHelp
+<BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitStopMagCali
+<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitStartMagCali
+<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitStartAccCali
+<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitSetUartBaud
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitSetBandwidth
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShowHelp
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1040,20 +1048,12 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
-<P><STRONG><a name="[4e]"></a>Delayms</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, main.o(i.Delayms))
-<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = Delayms &rArr; HAL_Delay
-</UL>
-<BR>[Calls]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
-</UL>
-<BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
-</UL>
-<P><STRONG><a name="[68]"></a>ShowHelp</STRONG> (Thumb, 66 bytes, Stack size 8 bytes, main.o(i.ShowHelp))
+<P><STRONG><a name="[6e]"></a>ShowHelp</STRONG> (Thumb, 66 bytes, Stack size 8 bytes, main.o(i.ShowHelp))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = ShowHelp &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
-<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AutoScanSensor
+<BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdProcess
 </UL>
 
 <P><STRONG><a name="[7a]"></a>__NVIC_SetPriority</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, stm32f1xx_hal_cortex.o(i.__NVIC_SetPriority))
@@ -1104,7 +1104,7 @@ Local Symbols
 <P><STRONG><a name="[9b]"></a>__CRC16</STRONG> (Thumb, 38 bytes, Stack size 20 bytes, wit_c_sdk.o(i.__CRC16))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = __CRC16
 </UL>
-<BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitReadReg
+<BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitReadReg
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WitWriteReg
 </UL>
 
